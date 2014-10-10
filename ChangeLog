@@ -1,3 +1,74 @@
+2014-10-10  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION: Version 0.1.0
+
+2014-10-09  Dirk Eddelbuettel  <edd@debian.org>
+
+	* man/rpushbullet-package.Rd: Added a new section on intialization
+	detailing how api key, device key(s) and name(s) and defaultdevice
+	can be specified via a dotfile, options or function arguments.
+
+	* R/pushes.R: Minor correction
+
+2014-10-08  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/pushes.R: New (optional) argument 'email' in pbPost
+	* man/pbPost.Rd: Corresponding manual page updates
+
+2014-10-06  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/pushes.R: Minor typo correction by Mike Birdgeneau
+
+	* R/pushes.R: Made file operations silent, minor tweak to docs
+	* R/init.R: Made file operations silent
+
+	* R/init.R: Also set 'names' option from init file
+
+	* tests/simpleTests.R: Added two examples for type='link'
+	and type='file'
+
+2014-09-10  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/pushes.R: Documentation clarified for 'recipient' option
+
+2014-06-15  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/pushes.R: Applied pull request #7 by Mike Birdgeneau which
+	implements pushes of type 'file'
+	* R/init.R: Ditto
+
+	* R/pushes: Minor postprocessing of pull request
+	* R/init.R: Ditto
+
+2014-06-10  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/pushes.R: Rewritten in terms of new argument 'recipients' with
+	the default being sent to all devices; old argument 'deviceind' now
+	deprecated.
+
+	* R/init.R: New internal helper function .getNames()
+	* R/init.R: The .getDefaultDevice() now defaults to 'zero' implying
+	all devices should be used.
+
+2014-06-07  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/devices.R: pgGetDevices() converted to an S3 object with proper
+	print and summary methods for the returned class 'pbDevices'
+
+2014-06-06  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/init.R: Applied pull request #3 by Bill Evans
+	* R/push.R: Ditto
+
+	* R/init.R: Minor tweak using 'defaultdevice'
+	* R/push.R: Ditto
+
+2014-06-05  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/init.R: Fixed two more references to pushbutton which should of
+	course have been pushbullet
+	* R/pushes.R: And another one here
+
 2014-06-02  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION: Version 0.0.2

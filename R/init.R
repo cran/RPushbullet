@@ -38,6 +38,9 @@
         assign("pb", pb, envir=.pkgenv)
         options("rpushbullet.key" = pb[["key"]])
         options("rpushbullet.devices" = pb[["devices"]])
+        options("rpushbullet.names" = pb[["names"]])
+        options("rpushbullet.defaultdevice" =
+                ifelse("defaultdevice" %in% names(pb), pb[["defaultdevice"]], 0))
     } else {
         txt <- paste("No file", dotfile, "found.\nConsider placing the",
                      "Pushbullet API key and your device id(s) there.")
@@ -50,7 +53,7 @@
     getOption("rpushbullet.key",                # retrieve as option, 
               ifelse(!is.null(.pkgenv$pb),      # else try environment
                      .pkgenv$pb[["key"]],       # and use it, or signal error
-                     stop(paste("Neither option 'rpushbutton.key' nor entry in",
+                     stop(paste("Neither option 'rpushbullet.key' nor entry in",
                                 "package environment found. Aborting."), call.=FALSE)))
 }
 
@@ -58,8 +61,15 @@
     getOption("rpushbullet.devices",       	# retrieve as option, 
               ifelse(!is.null(.pkgenv$pb),	# else try environment
                      .pkgenv$pb[["devices"]],   # and use it, or signal error
-                     stop(paste("Neither option 'rpushbutton.devices' nor entry in",
+                     stop(paste("Neither option 'rpushbullet.devices' nor entry in",
                                 "package environment found. Aborting."), call.=FALSE)))
+}
+
+.getDefaultDevice <- function() {
+    getOption("rpushbullet.defaultdevice",     	# retrieve as option, 
+              ifelse(!is.null(.pkgenv$pb),	# else try environment
+                     .pkgenv$pb[["defaultdevice"]], # and use it, or return zero
+                     0))                            # as code for all devices
 }
 
 .getCurl <- function() {
@@ -68,4 +78,24 @@
                                "Install curl, and restart R and reload package"),
                          call.=FALSE)
     curl
+}
+
+.getNames <- function() {
+    getOption("rpushbullet.names",       	# retrieve as option, 
+              ifelse(!is.null(.pkgenv$pb),	# else try environment
+                     .pkgenv$pb[["names"]],   # and use it, or signal error
+                     stop(paste("Neither option 'rpushbullet.names' nor entry in",
+                                "package environment found. Aborting."), call.=FALSE)))
+}
+
+.getUploadRequest <- function(filename, filetype="img/png", apikey = .getKey()) {
+    
+    curl <- .getCurl()
+    pburl <- "https://api.pushbullet.com/v2/upload-request"
+    
+    txt <- sprintf('%s -s -u %s: %s -d file_name=%s -d file_type=%s',
+                   curl, apikey, pburl, filename, filetype)
+    
+    result <- fromJSON(system(txt, intern=TRUE))
+    result
 }
