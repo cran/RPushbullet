@@ -1,3 +1,54 @@
+2015-02-09  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION: Version 0.2.0
+
+	* DESCRIPTION (Description): Some minor last minute changes
+
+2015-02-08  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/NEWS.Rd: Added
+
+	* tests/simpleTests.R (testfile): Fix wrong case in package name
+
+2015-02-04  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/init.R (.parseResourceFile): Split off functionality from
+	.onAttach(), permitting later call by user if needed
+	* R/init.R (.onAttach): Call .parseResourceFile()
+
+2015-02-04  Henrik Bengtsson  <hb@biostat.ucsf.edu>
+
+	* R/init.R (.onAttach): Warn on non-existing key
+	* README.md: Typo fixes, added note that channels are public
+	* NAMESPACE: Export S3 methods
+	* tests/simpleTests.R: Internal improvements and typo fixes
+
+2015-01-20  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/pushes.R: Some improvements to logic and use of test variables
+
+2015-01-19  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/init.R: Support option testemail and testchannel
+
+	* DESCRIPTION: Bump Version: and Date:
+
+2015-01-18  Mike Birdgeneau  <mike.birdgeneau@gmail.com>
+
+	* R/pushes.R (pbPost): Support for channels
+
+	* tests/simpleTests.R: Added tests for channels
+
+2014-12-30  Dirk Eddelbuettel  <edd@debian.org>
+
+	* tests/simpleTests.R: A few minor edits
+
+2014-12-29  Mike Birdgeneau  <mike.birdgeneau@gmail.com>
+
+	* R/pushes.R: Corrections to file transfer mode
+
+	* tests/simpleTests.R: Added more tests
+
 2014-11-03  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION: Version 0.1.1
