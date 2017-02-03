@@ -1,32 +1,58 @@
-## RPushbullet [![Build Status](https://travis-ci.org/eddelbuettel/rpushbullet.png)](https://travis-ci.org/eddelbuettel/rpushbullet) [![License](http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-2.0.html)
+## RPushbullet [![Build Status](https://travis-ci.org/eddelbuettel/rpushbullet.svg)](https://travis-ci.org/eddelbuettel/rpushbullet) [![License](http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-2.0.html) [![CRAN](http://www.r-pkg.org/badges/version/RPushbullet)](https://cran.r-project.org/package=RPushbullet) [![Downloads](http://cranlogs.r-pkg.org/badges/RPushbullet?color=brightgreen)](http://www.r-pkg.org/pkg/RPushbullet) [![Code Coverage](https://codecov.io/gh/eddelbuettel/rpushbullet/graph/badge.svg)](https://codecov.io/gh/eddelbuettel/rpushbullet)
 
 ### R interface to Pushbullet
 
 [Pushbullet](http://www.pushbullet.com) is an awesome (and free) service to
-pass messages between your computer, phone and tablet.  It offers immediacy
+pass messages between your computer(s), phone(s) and tablet(s).  It offers immediacy
 which is perfect for alerting, and much more.
 
-To use it, just register as a user to obtain an 
-[API key](https://www.pushbullet.com/account), and maybe install
+To use it, first register to obtain an 
+[API key](https://www.pushbullet.com), and maybe install
 the Android or iPhone app, or one of the supported browser extension or
-desktop applications.  See the [Pushbullet](http://www.pushbullet.com)
-documentation for more, in particular
+desktop applications.  See the [Pushbullet](https://www.pushbullet.com)
+documentation for more information and details.
 
-- [Getting Started](https://www.pushbullet.com/guide/getting-started)
-- [Features](https://www.pushbullet.com/guide/getting-the-most-out-of-pushbullet)
+### Example 
+
+With a resource file (see below) properly setup, you can just do something like the following
+
+```r
+R> msg   # just an example, can be driven by real simulation results  
+[1] "DONE after 10000 simulations taking 42.43 minutes reducing RMSE by  7.89 percent"  
+R>  
+R> RPushbullet::pbPost("note", title="Simulation complete", body=msg)  
+R> pbPost("note", title="Simulation complete", body=msg)  
+R>  
+```
+
+and a message like the image following below should pop up (if messaging directed to the browser):
+
+![](https://github.com/eddelbuettel/rpushbullet/raw/master/attic/rpushbullet_message.png)  
+
+Another excellent use case was suggested years ago by [Karl Broman](http://kbroman.org/) in 
+[this blog post](https://kbroman.wordpress.com/2014/09/04/error-notifications-from-r/). We can 
+improve on his version a little as one no longer needs to load the package:
+
+```r
+options(error = function() { 
+    RPushbullet::pbPost("note", "Error", geterrmessage())
+    if(!interactive()) stop(geterrmessage())
+})
+```
+
+There was one noteworthy follow-up for which I lost the source: it suggested to make the message 
+somewhat saltier by relying on the helpful [rfoaa](http://dirk.eddelbuettel.com/code/rfoaas.html) package.
 
 ### Package Status
 
-The package is functional, yet still young and thus subject to change.
+The package is reasonably mature and functional. 
 
-Initial explorations at the end of March 2014 were not entirely successful:
-Using [RCurl](http://cran.rstudio.com/package=RCurl), one could retrieve
-device lists, and push notes but would never retrieve the proper JSON response
-from Pushbullet. I consulted with some of the RCurl experts (shoutout to Jeff
-G, Hadley W, and Duncan TL) but without resolution.
+Up until release 0.2.0, an external `curl` binary was used. We have since switched to using
+the [curl](https://cran.r-project.org/package=curl) package.
 
-So this is a simpler reboot. We simply call the `curl` binary, and retrieve
-the JSON response.
+Given that the [Pushbullet API](https://docs.pushbullet.com/) has other nice features, future 
+extensions are certainly possible and encouragement.  Interested contributors should file issue 
+tickets first to discuss before going off on pull requests.
 
 ### Initialization
 
@@ -58,11 +84,14 @@ help page for more details.
 
 You can also create the file programmatically via
 
-```
-cat(RJSONIO::toJSON(list(key="..key here..", devices=c("..aa..", "..bb.."))))
+```r
+cat(jsonlite::toJSON(list(key="..key here..", devices=c("..aa..", "..bb.."))))
 ```
 
 and write that content to the file `~/.rpushbullet.json`.
+
+Starting with release 0.3.0, a new helper function `pbSetup()` is also
+available to create the file.
 
 You can also retrieve the ids of your devices with the `pbGetDevices()`
 function by calling, say, `str(fromJSON(pbGetDevices()))`.  Note that you
@@ -96,13 +125,13 @@ One method to generate a hard-to-guess tag is `digest::digest(rnorm(1))`.
 Channels can be used by passing a `channel` argument to the `pbPost`
 function. The Pushbullet API identifies a channel via the
 supplied `channel_tag` value of this argument. See the
-[Pushes API documentation](https://docs.pushbullet.com/v2/pushes/) for +more
+[Pushes API documentation](https://docs.pushbullet.com/v2/pushes/) for more
 information.
 
 
 ### Author
 
-Dirk Eddelbuettel
+Dirk Eddelbuettel with contributions by Bill Evans, Mike Birdgeneau, Henrik Bengtsson, and Seth Wenchel
 
 ### License
 

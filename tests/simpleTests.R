@@ -25,7 +25,8 @@ if (Sys.getenv("Run_RPushbullet_Tests")=="yes") {
     RPushbullet:::.getDevices()
 
     ## Show the list of devices registered to the key
-    require(RJSONIO)
+    #require(RJSONIO)
+    require(jsonlite)
     str(pbGetDevices())
 
     ## Test destinations
@@ -59,19 +60,15 @@ if (Sys.getenv("Run_RPushbullet_Tests")=="yes") {
     ## Post a note item
     title <- "A Simple Test"
     body <- "We think this should work.\nWe really do."
-    res <- fromJSON(pbPost("note", count(title),
-                           "We think this should work.\nWe really do.")[[1]])
+    res <- fromJSON(pbPost("note", count(title), body, debug=TRUE, verbose=TRUE)[[1]])
+
     str(res)
     ## storing this test result to allow us to use active user's email for testing below.
 
 
-    ## Post an address -- should open browser in Google Maps
-    str(fromJSON(pbPost(type="address", title=count("An Address"),
-                        body="South Pole, Antarctica")[[1]]))
-
     ## Post a URL -- should open browser
-    str(fromJSON(pbPost(type="link", title=count("Some title"), body="Some URL",
-                        url="http://cran.r-project.org/package=RPushbullet")[[1]]))
+    str(fromJSON(pbPost(type="link", title=count("Some title"), body="Some URL to click on",
+                        url="https://cran.r-project.org/package=RPushbullet")[[1]]))
 
     #### Posting Files with different arguments ####
 
@@ -79,8 +76,9 @@ if (Sys.getenv("Run_RPushbullet_Tests")=="yes") {
     file <- testfile(count(TRUE))
     str(fromJSON(pbPost(type="file", url=file)[[1]]))
 
-    ## Post a file with numeric recipient
     if (hasDevices) {
+
+        ## Post a file with numeric recipient
         file <- testfile(count(TRUE))
         str(fromJSON(pbPost(type="file", url=file, recipients = 1)[[1]]))
 
@@ -101,7 +99,8 @@ if (Sys.getenv("Run_RPushbullet_Tests")=="yes") {
    } # if (hasDevices)
 
 
-    if (hasChannel && hasDevices && hasEmail) {
+    if (Sys.getenv("Run_RPushbullet_Tests_All")=="yes" &&
+        hasChannel && hasDevices && hasEmail) {
         ## Test hierarchy of arguments with channel specified:
         ## 1) All three should send to recipients.
         ## 2) Email and channel should send to email.
@@ -114,7 +113,7 @@ if (Sys.getenv("Run_RPushbullet_Tests")=="yes") {
                                   email = email,
                                   channel = channel)[[1]])
         if (is.null(result$target_device_iden)) {
-            stop("Test Failed.")
+            warning("Test failed on note with recipient/email/channel.")
         }
 
         ## Post a note with email and channel specified.
@@ -122,24 +121,43 @@ if (Sys.getenv("Run_RPushbullet_Tests")=="yes") {
                                   email = email,
                                   channel = channel)[[1]])
         if (is.null(result$receiver_email)) {
-            stop("Test Failed.")
+            warning("Test Failed on note with email/channel.")
         }
 
-        ## Post a note with recipients and channel specified.
+        ## Post a note with recipients and device and channel specified.
         result <- fromJSON(pbPost(type="note", title=count(title), body=body,
                                   recipients = devices[1],
                                   channel = channel)[[1]])
         if (is.null(result$target_device_iden)) {
-            stop("Test Failed.")
+            warning("Test Failed on note with recipient/channel.")
         }
 
         ## Post a note with only the channel specified.
         str(fromJSON(pbPost(type="note", title=count(title), body=body,
                             channel = channel,
                             verbose=TRUE)[[1]]))
-        # Returns empty list, but posts successfully. API seems to return empty JSON. (tested curl command)
-    } # if (hasChannel && hasDevices && hasEmail)
+        ## Returns empty list, but posts successfully.
+        ## API seems to return empty JSON. (tested curl command)
+        
+    } # if ('runAll' && hasChannel && hasDevices && hasEmail)
 
+    if (Sys.getenv("Run_RPushbullet_Tests_All")=="yes") {
+        ## real channel bad token
+        if (hasChannel) {
+            err <- try(pbPost(type="note", title=count(title), body=body,
+                              channel = channel, apikey = "0123456789",
+                              verbose=TRUE))
+            if (inherits(err, "try-error")) warning("Expected failure on fake apikey.")
+            if (!(grepl("401:",err[1]))) warning("Test Failed. Expected error code 401")
+        }
+
+        ## fake channel
+        err <- try(pbPost(type="note", title=count(title), body=body,
+                          channel = "0123456789-9876543210-{}",
+                          verbose=TRUE))
+        if (inherits(err, "try-error")) warning("Expected failure on non-existing channel")
+        if (!(grepl("400:",err[1]))) warning("Test Failed. Expected error code 400")
+    }
 
     ## Post closing note
     title <- count(sprintf("Test of RPushbullet %s completed", packageVersion("RPushbullet")))

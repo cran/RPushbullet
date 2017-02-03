@@ -23,7 +23,7 @@
 
   The main function is \code{\link{pbPost}} which can be used to send a
   message comprising a note (with free-form body and title), link (for
-  sending a URL), address or even a file. The message recipients is
+  sending a URL), or even a file. The message recipients is
   typically one (or several) of the devices known to the user (see the
   next section for details), it can also be an email address in which
   case \href{http://www.pushbullet.com}{Pushbullet} creates and sends an
@@ -72,7 +72,12 @@
   \code{rpushbullet.key}, \code{rpushbullet.devices}, \code{rpushbullet.names}, 
   and \code{rpushbullet.defaultdevice} corresponding to the entries in
   the JSON file shown above.
-  
+
+  The \code{curl} binary is required, and is located at package
+  initialization, along with the other load-time intializations
+  described here.  It is therefore strongly recommended to attach the
+  package in the normal way via \code{library(RPushbullet)} rather than
+  trying to access functions from the package namespace.
 }
 \author{
   Dirk Eddelbuettel 
