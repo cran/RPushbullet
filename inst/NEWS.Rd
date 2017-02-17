@@ -3,6 +3,23 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rpushbullet/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rpushbullet/issues/#1}{##1}}
 
+\section{Changes in version 0.3.1 (2017-02-17)}{
+  \itemize{
+    \item The target device designation was corrected (\ghpr{39}).
+    \item Three new (unexported) helper functions test now test the
+    validity of the api key, device and channel (Seth in \ghpr{41}).
+    \item The \code{summary} method for the \code{pbDevices} class was
+    corrected (Seth in \ghpr{43}).
+    \item New helper functions \code{pbValidateConf}, \code{pbGetUser},
+    \code{pbGetChannelInfo} were added (Seth in \ghpr{44} closing
+    \ghit{40}).
+    \item New classes \code{pbUser} and \code{pbChannelInfo} were added
+    (Seth in \ghpr{44}).
+    \item Travis CI tests (and \CRANpkg{covr} coverage analysis) are now
+    enabled via an encrypted config file (\ghpr{45}).  
+  }
+}
+
 \section{Changes in version 0.3.0 (2017-02-03)}{
   \itemize{
     \item The \code{curl} binary use was replaced by use of the
@@ -17,8 +34,8 @@
     closing \ghit{26})
     \item The test suite was updated and extended
     \item The Travis script was updated use run.sh
-    \item DESCRIPTION, README.md and other foiles were updated for
-    current R CMDq check standards
+    \item DESCRIPTION, README.md and other files were updated for
+    current \code{R CMD check} standards
     \item Deprecated parts such as 'type=address' were removed, and the
     documentation was updated accordingly.
     \item Coverage support was added (in a 'on-demand' setting as
