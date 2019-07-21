@@ -1,6 +1,6 @@
 ##  RPushbullet -- R interface to Pushbullet libraries
 ##
-##  Copyright (C) 2017  Seth Wenchel and Dirk Eddelbuettel
+##  Copyright (C) 2017 - 2019  Seth Wenchel and Dirk Eddelbuettel
 ##
 ##  This file is part of RPushbullet.
 ##
@@ -44,13 +44,14 @@
 ##' @author Seth Wenchel and Dirk Eddelbuettel
 pbSetup <- function(apikey, conffile, defdev) {
 
-    if (missing(apikey)) apikey <- readline("Please enter your API key (aka 'Access Token': ")
+    if (missing(apikey))   				#nocov start
+        apikey <- readline("Please enter your API key (aka 'Access Token'): ")
     if (missing(conffile)) conffile <- .getDotfile()
-    if (missing(defdev)) defdev <- NA
+    if (missing(defdev)) defdev <- NA			#nocov end
 
     pdgd <- pbGetDevices(apikey)
 
-    if (!length(pdgd$devices)) stop("no devices found for ", apikey, call.=FALSE)
+    if (!length(pdgd$devices)) stop("no devices found for ", apikey, call.=FALSE)  #nocov
 
     devices <- names <- rep(NA_character_, nrow(pdgd$devices)) # default to NA
     ind <- with(pdgd$devices, active & pushable)
@@ -61,17 +62,20 @@ pbSetup <- function(apikey, conffile, defdev) {
     names <- na.omit(names)
 
     for (i in seq_along(names)) print(paste0(i,". ",names[i]))
-    if (is.na(defdev)) defdev <- readline("Select a default device (0 for none): ")
+    if (is.na(defdev)) defdev <- readline("Select a default device (0 for none): ")  #nocov
 
     reslist <- list(key=apikey, devices = devices, names = names)
     if (defdev %in% as.character(seq_along(names)))
-        reslist$defaultdevice <- names[as.integer(defdev)]
+        reslist$defaultdevice <- names[as.integer(defdev)]			#nocov
 
     json <- toJSON(reslist, auto_unbox=TRUE, pretty=TRUE)
 
     f <- file(conffile,open = "w")
     cat(json,file = f)
     close(f)
+    ## User Read only
+    Sys.chmod(conffile, mode = "600")
+    .parseResourceFile(conffile)
     invisible(NULL)
 }
 
@@ -89,13 +93,13 @@ pbSetup <- function(apikey, conffile, defdev) {
 ##'
 pbValidateConf <- function(conf=NULL){
     if (is.null(conf)) {
-        conf <- .getDotfile()							#nocov 
-        message("No configuration specified.  Assuming user meant: ",conf)	#nocov 
+        conf <- .getDotfile()							#nocov
+        message("No configuration specified.  Assuming user meant: ",conf)	#nocov
     }
     params <- try(jsonlite::fromJSON(conf))
     if (inherits(params, "try-error")) {
-        warning(conf, " is not a valid JSON string or a file containing such.")	#nocov 
-        return(FALSE)  								#nocov 
+        warning(conf, " is not a valid JSON string or a file containing such.")	#nocov
+        return(FALSE)  								#nocov
     }
     message("key is ",ifelse(validKey <- .isValidKey(params$key),"VALID","INVALID"))
     if (validKey) {

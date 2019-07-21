@@ -1,4 +1,4 @@
-## RPushbullet [![Build Status](https://travis-ci.org/eddelbuettel/rpushbullet.svg)](https://travis-ci.org/eddelbuettel/rpushbullet) [![License](http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-2.0.html) [![CRAN](http://www.r-pkg.org/badges/version/RPushbullet)](https://cran.r-project.org/package=RPushbullet) [![Downloads](http://cranlogs.r-pkg.org/badges/RPushbullet?color=brightgreen)](http://www.r-pkg.org/pkg/RPushbullet) [![Code Coverage](https://codecov.io/gh/eddelbuettel/rpushbullet/graph/badge.svg)](https://codecov.io/gh/eddelbuettel/rpushbullet)
+## RPushbullet [![Build Status](https://travis-ci.org/eddelbuettel/rpushbullet.svg)](https://travis-ci.org/eddelbuettel/rpushbullet) [![License](http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-2.0.html) [![CRAN](http://www.r-pkg.org/badges/version/RPushbullet)](https://cran.r-project.org/package=RPushbullet) [![Dependencies](https://tinyverse.netlify.com/badge/RPushbullet)](https://cran.r-project.org/package=RPushbullet) [![Downloads](http://cranlogs.r-pkg.org/badges/RPushbullet?color=brightgreen)](http://www.r-pkg.org/pkg/RPushbullet) [![Code Coverage](https://codecov.io/gh/eddelbuettel/rpushbullet/graph/badge.svg)](https://codecov.io/gh/eddelbuettel/rpushbullet)
 
 ### R interface to Pushbullet
 
@@ -23,8 +23,6 @@ R> msg   # just an example, can be driven by real simulation results
 [1] "DONE after 10000 simulations taking 42.43 minutes reducing RMSE by  7.89 percent"  
 R>  
 R> RPushbullet::pbPost("note", title="Simulation complete", body=msg)  
-R> pbPost("note", title="Simulation complete", body=msg)  
-R>  
 ```
 
 and a message like the image following below should pop up (if messaging directed to the browser):
@@ -133,7 +131,8 @@ information.
 
 ### Author
 
-Dirk Eddelbuettel with contributions by Bill Evans, Mike Birdgeneau, Henrik Bengtsson, and Seth Wenchel
+Dirk Eddelbuettel with contributions by Bill Evans, Mike Birdgeneau, Henrik
+Bengtsson, Seth Wenchel, Colin Gillespie and Chanyub Park.
 
 ### License
 

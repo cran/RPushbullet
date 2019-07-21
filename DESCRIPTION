@@ -1,15 +1,15 @@
 Package: RPushbullet
 Type: Package
 Title: R Interface to the Pushbullet Messaging Service
-Version: 0.3.1
-Date: 2017-02-17
+Version: 0.3.2
+Date: 2019-07-21
 Author: Dirk Eddelbuettel with contributions by Bill Evans, Mike Birdgeneau, 
- Henrik Bengtsson, and Seth Wenchel
+ Henrik Bengtsson, Seth Wenchel, Colin Gillespie and Chanyub Park
 Maintainer: Dirk Eddelbuettel <edd@debian.org>
 Description: An R interface to the Pushbullet messaging service which
  provides fast and efficient notifications (and file transfer) between
- computers, phones and tablets.  An account has to be registered at the site
- http://www.pushbullet.com site to obtain a (free) API key.
+ computers, phones and tablets.  An account has to be registered at the 
+ site <http://www.pushbullet.com> site to obtain a (free) API key.
 Imports: utils, stats, jsonlite, curl
 SystemRequirements: A user API key (which one can request from the
         website at <http://www.pushbullet.com>), and one or more
@@ -21,6 +21,6 @@ SystemRequirements: A user API key (which one can request from the
 NeedsCompilation: no
 License: GPL (>= 2)
 RoxygenNote: 6.0.1
-Packaged: 2017-02-17 17:57:06.311621 UTC; edd
+Packaged: 2019-07-21 13:01:55.933405 UTC; edd
 Repository: CRAN
-Date/Publication: 2017-02-17 23:40:11
+Date/Publication: 2019-07-21 13:40:02 UTC
