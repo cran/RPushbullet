@@ -4,6 +4,8 @@
 ##  Copyright (C) 2014         Dirk Eddelbuettel <edd@debian.org>
 ##  Copyright (C) 2014 - 2016  Dirk Eddelbuettel and Mike Birdgeneau
 ##  Copyright (C) 2014 - 2019  Dirk Eddelbuettel, Mike Birdgeneau and Seth Wenchel
+##  Copyright (C) 2019 - 2020  Dirk Eddelbuettel, Mike Birdgeneau, Seth Wenchel
+##                             and Chan-Yub Park
 ##
 ##  This file is part of RPushbullet.
 ##
@@ -50,6 +52,12 @@
 ##'
 ##' The earlier argument \code{deviceind} is now deprecated and will
 ##' be removed in a later release.
+##'
+##' In some cases servers may prefer the older \sQuote{HTTP 1.1}
+##' standard (as opposed to the newer \sQuote{HTTP 2.0} set by
+##' \code{curl}). Setting the option \dQuote{rpushbullet.useHTTP11} to
+##' \code{TRUE} will enable use of \sQuote{HTTP 1.1}.
+##'
 ##' @title Post a message via Pushbullet
 ##' @param type The type of post: one of \sQuote{note}, \sQuote{link}, or \sQuote{file}.
 ##' @param title The title of the note being posted.
@@ -267,7 +275,7 @@ pbPost <- function(type=c("note", "link", "file"),
 ##' initialization.
 ##' @param limit Limit number of post. Default is 10.
 ##' @return A data.frame result record is returned
-##' @author Chanyub Park
+##' @author Chan-Yub Park
 ##' @examples
 ##' \dontrun{
 ##' pbGetPosts()
@@ -275,6 +283,7 @@ pbPost <- function(type=c("note", "link", "file"),
 pbGetPosts <- function(apikey = .getKey(), limit = 10) {			#nocov start
     pburl <- paste0("https://api.pushbullet.com/v2/pushes?limit=", limit)
     res <- .createPush(pburl, apikey, hopt = "GET")
+    Encoding(res) <- "UTF-8"
     jsonlite::fromJSON(res)$pushes
 }										#nocov ends
 

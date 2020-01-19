@@ -3,6 +3,14 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rpushbullet/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rpushbullet/issues/#1}{##1}}
 
+\section{Changes in version 0.3.3 (2020-01-18)}{
+  \itemize{
+    \item UTF-8 encoding is now used (Chan-Yub Park in \ghpr{55}).
+    \item Curl can use HTTP/1.1 (Alexandre Shannon in \ghpr{59} fixing
+    \ghit{57}, plus Dirk in \ghpr{60} making it optional).
+  }
+}
+
 \section{Changes in version 0.3.2 (2019-07-21)}{
   \itemize{
     \item The Travis setup was robustified with respect to the token
@@ -11,7 +19,7 @@
     Gillespie in \ghpr{50})
     \item At startup initialization is now more consistent (Colin
     Gillespie in \ghpr{53} fixing \ghit{52})
-    \item A new function to fetch prior posts was added (Chanyub Park in
+    \item A new function to fetch prior posts was added (Chan-Yub Park in
     \ghpr{54}).
   }
 }
