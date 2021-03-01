@@ -1,18 +1,28 @@
-## RPushbullet [![Build Status](https://travis-ci.org/eddelbuettel/rpushbullet.svg)](https://travis-ci.org/eddelbuettel/rpushbullet) [![License](http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-2.0.html) [![CRAN](http://www.r-pkg.org/badges/version/RPushbullet)](https://cran.r-project.org/package=RPushbullet) [![Dependencies](https://tinyverse.netlify.com/badge/RPushbullet)](https://cran.r-project.org/package=RPushbullet) [![Downloads](http://cranlogs.r-pkg.org/badges/RPushbullet?color=brightgreen)](http://www.r-pkg.org/pkg/RPushbullet) [![Code Coverage](https://codecov.io/gh/eddelbuettel/rpushbullet/graph/badge.svg)](https://codecov.io/gh/eddelbuettel/rpushbullet)
+## RPushbullet: R interface to Pushbullet
 
-### R interface to Pushbullet
+[![Build Status](https://travis-ci.org/eddelbuettel/rpushbullet.svg)](https://travis-ci.org/eddelbuettel/rpushbullet) 
+[![License](https://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat)](https://www.gnu.org/licenses/gpl-2.0.html)
+[![CRAN](https://www.r-pkg.org/badges/version/RPushbullet)](https://cran.r-project.org/package=RPushbullet)
+[![Dependencies](https://tinyverse.netlify.com/badge/RPushbullet)](https://cran.r-project.org/package=RPushbullet)
+[![Downloads](https://cranlogs.r-pkg.org/badges/RPushbullet?color=brightgreen)](https://www.r-pkg.org/pkg/RPushbullet)
+[![Code Coverage](https://codecov.io/gh/eddelbuettel/rpushbullet/graph/badge.svg)](https://codecov.io/gh/eddelbuettel/rpushbullet)
+[![Last Commit](https://img.shields.io/github/last-commit/eddelbuettel/rpushbullet)](https://github.com/eddelbuettel/rpushbullet)
+[![Documentation](https://img.shields.io/badge/documentation-is_here-blue)](https://eddelbuettel.github.io/rpushbullet/)
 
-[Pushbullet](http://www.pushbullet.com) is an awesome (and still free
-for a very useful set of features with additional premium service for
-extras) service to pass messages between your computer(s), phone(s) and
-tablet(s).  It offers immediacy which is perfect for alerting, and
-much more.
+### What is this?
 
-To use it, first register to obtain an API key from the 
-[Pushbullet](https://www.pushbullet.com) site, and maybe install
-the Android or iPhone app, or one of the supported browser extension or
-desktop applications.  See the [Pushbullet](https://www.pushbullet.com)
-documentation for more information and details.
+RPushbullet is an R client for the wonderful
+[Pushbullet](https://www.pushbullet.com) messaging / notification system.
+
+### So what is Pushbullet?
+
+[Pushbullet](https://www.pushbullet.com) is an awesome (and free) little
+service that acts as a message broker. You sign up, and get a key to use the
+API.  You then install the "app" on your smartphone or Chrome browser (and
+obtain a device id for of these). You can also query your account with the
+`pbDevices()` function to retrieve these ids.
+
+Presto. Now you can send messages between them by invoking `pbPost()`.
 
 ### Example 
 
@@ -29,7 +39,7 @@ and a message like the image following below should pop up (if messaging directe
 
 ![](https://github.com/eddelbuettel/rpushbullet/raw/master/attic/rpushbullet_message.png)  
 
-Another excellent use case was suggested years ago by [Karl Broman](http://kbroman.org/) in 
+Another excellent use case was suggested years ago by [Karl Broman](https://kbroman.org/) in 
 [this blog post](https://kbroman.wordpress.com/2014/09/04/error-notifications-from-r/). We can 
 improve on his version a little as one no longer needs to load the package:
 
@@ -41,7 +51,13 @@ options(error = function() {
 ```
 
 There was one noteworthy follow-up for which I lost the source: it suggested to make the message 
-somewhat saltier by relying on the helpful [rfoaas](http://dirk.eddelbuettel.com/code/rfoaas.html) package.
+somewhat saltier by relying on the helpful [rfoaas](https://dirk.eddelbuettel.com/code/rfoaas.html) package.
+
+### Documentation
+
+Package documentation, help pages, a vignette, and more is available
+[here](https://eddelbuettel.github.io/rpushbullet/).
+
 
 ### Package Status
 
@@ -51,7 +67,7 @@ Up until release 0.2.0, an external `curl` binary was used. We have since switch
 the [curl](https://cran.r-project.org/package=curl) package.
 
 Given that the [Pushbullet API](https://docs.pushbullet.com/) has other nice features, future 
-extensions are certainly possible and encouragement.  Interested contributors should file issue 
+extensions are certainly possible and encouraged.  Interested contributors should file issue 
 tickets first to discuss before going off on pull requests.
 
 ### Initialization
@@ -125,9 +141,8 @@ One method to generate a hard-to-guess tag is `digest::digest(rnorm(1))`.
 Channels can be used by passing a `channel` argument to the `pbPost`
 function. The Pushbullet API identifies a channel via the
 supplied `channel_tag` value of this argument. See the
-[Pushes API documentation](https://docs.pushbullet.com/v2/pushes/) for more
+[Pushes API documentation](https://docs.pushbullet.com/) for more
 information.
-
 
 ### Author
 
